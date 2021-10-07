@@ -15,19 +15,15 @@ const App = () => {
     .then(anotherParameter=>{setApps(anotherParameter);console.log(anotherParameter)})
     .catch(anError=>{setSomeErrors(anError);console.log(anError)}));
   }
-  //This is called every time the view is rendered
-  //The new calls of fetchData (and others) must be stopped somehow, because in
-  //those methods are statevariables set, which cause a new re-render.
   useEffect(() => {
       if (isLoading==true){
       setLoading(false);
        fetchFish2();
     }
   });
-  //If the 'fetch' is not ready yet, an activityindicator is shown
   if (isLoading==true) {
     return (
-      <View style={{flex: 1, padding: 20, justifyContent:'center'}}>
+      <View style={styles.errorstyle}>
         <ActivityIndicator size="large" color="#00ff00" />
       </View>
     );
@@ -35,7 +31,7 @@ const App = () => {
   //If errors
   else if(hasError){
     return(
-      <View style={{flex: 1, padding: 20, justifyContent:'center'}}>
+      <View style={styles.errorstyle}>
         <Text>{hasError}</Text>
         <Text>{""+someError}</Text>
       </View>
@@ -44,13 +40,12 @@ const App = () => {
   //Otherwise the list is shown
   else{
     return (
-      <View style={{marginTop:50}}>
+      <View style={styles.list}>
         <Text>{hasError}</Text>
         <FlatList
             data={apps}
             renderItem={({item}) => (
               <View style={styles.listItem}>
-                {/* <Text>{item.id}) {item.title}, {item.releaseYear}</Text> */}
                 <Text>{item.id}) {item.name}</Text>
               </View>
             )}
@@ -67,8 +62,19 @@ const styles=StyleSheet.create({
     marginVertical: 10,
     borderWidth: 2,
     borderColor: '#0f0',
-    backgroundColor: '#fce',    
+    backgroundColor: '#fce',
+  },
+  list:{
+    marginTop:'50%',
+    alignItems:'center',
+
+  },
+  errorstyle:{
+    flex: 1, 
+    padding: 20, 
+    justifyContent:'center'
   }
+  
 });
 
 export default App;
