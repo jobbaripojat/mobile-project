@@ -62,7 +62,7 @@ const styles=StyleSheet.create({
     marginVertical: 10,
     borderWidth: 2,
     borderColor: '#0f0',
-    backgroundColor: '#fce',
+    backgroundColor: '#778899',
   },
   list:{
     marginTop:'50%',
