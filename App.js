@@ -1,18 +1,34 @@
-import React from 'react';
-import { StyleSheet, Text, View, TouchableOpacity } from 'react-native';
+/* import React from 'react';
+import { StyleSheet, Text, View, TouchableOpacity } from 'react-native'; */
 import { FileSystem } from 'react-native-unimodules';
 import { FetchAppNames, Init, addFish, Drop } from './components/db';
 
 var INSTALLED_APPS = [];
 var DOWNLOADED_APPS = [];
 var APP_REQUIREMENTS = [];
+var WAIT_TIME = 1;
 
-Init().then(()=>{console.log('Database creation succeeded!');}).catch((err)=>{console.log('Database IS NOT initialized! ' + err);});
+console.log("\nApp started\n-----------");
 
-ClearApps();
-CheckApps();
+function GetReqs(){
+  Main();
+  setTimeout(() => {
+    return APP_REQUIREMENTS;
+  }, WAIT_TIME);
+  Reset();
+}
 
-GetAllApps();
+function Reset(){
+  INSTALLED_APPS = [];
+  DOWNLOADED_APPS = [];
+  APP_REQUIREMENTS = [];
+}
+
+async function Main(){
+  Init().then(()=>{console.log('Database creation succeeded!');}).catch((err)=>{console.log('Database IS NOT initialized! ' + err);});
+  CheckApps();
+  GetAllApps();
+}
 
 async function GetAllApps(){
   try{
@@ -25,67 +41,67 @@ async function GetAllApps(){
   catch(ERR){
     console.log(ERR);
   }
+
   INSTALLED_APPS.forEach(ELEMENT => {
-    if (DOWNLOADED_APPS.findIndex(x => x.name == ELEMENT) == -1) {
-      DlApp(ELEMENT);
-    }
+    DlApp(ELEMENT);
+    console.log(ELEMENT + ' downloaded!');
+    DOWNLOADED_APPS.push(ELEMENT);
   });
+
   DOWNLOADED_APPS.forEach(ELEMENT => {
-    CreateReqs(ELEMENT.name, ELEMENT.path);
-  })
-  console.log(APP_REQUIREMENTS);
+    var X = CreateReqs(ELEMENT)
+      APP_REQUIREMENTS.push(X);
+  });
 }
 
-function CreateReqs(APP_NAME, PATH) {
-  const STRING = 'require("' + PATH + '");';
-  const FUNC = new Function(STRING);
+function ClearApps(){
+  const PATH = FileSystem.documentDirectory + 'apps';
+  FileSystem.deleteAsync(PATH);
+  FileSystem.makeDirectoryAsync(PATH);
+  console.log("Apps deleted!");
+}
+
+function CheckApps(){
+  const PATH = FileSystem.documentDirectory + 'apps';
+  let DIR = FileSystem.readDirectoryAsync(PATH)
+
+  if (DIR.length > 0) {
+    DIR.forEach(ELEMENT => {
+      const OBJ = {
+        name: ELEMENT,
+        path: PATH + '/' + ELEMENT
+      }
+      DOWNLOADED_APPS.push(OBJ);
+    });
+  }
+}
+
+function CreateReqs(APP_NAME) {
+  const PATH = FileSystem.documentDirectory + 'apps/' + APP_NAME;
+  const STRING = 'require(\'' + PATH + '\');';
   const OBJ = {
     name: APP_NAME,
-    func: FUNC
+    req: STRING
   }
-  APP_REQUIREMENTS.push(OBJ);
-  console.log(APP_NAME + ' require added');
+  return OBJ;
 }
 
 async function DlApp(APP_NAME){
   const PATH = FileSystem.documentDirectory + 'apps/' + APP_NAME;
-  await FileSystem.makeDirectoryAsync(PATH, { intermediates: true });
-  const REMOTE_URI = 'https://storage.googleapis.com/awis-apps/' + APP_NAME;
-  const { uri: LOCAL_PATH } = await FileSystem.downloadAsync(REMOTE_URI, PATH);
-  const OBJ = {
-    name: APP_NAME,
-    path: LOCAL_PATH
+  const INFO = await FileSystem.getInfoAsync(PATH);
+  if (!INFO.exists) {
+    await FileSystem.makeDirectoryAsync(PATH, { intermediates: true });
+    const REMOTE_URI = 'https://storage.googleapis.com/awis-apps/' + APP_NAME;
+    const { uri: LOCAL_PATH } = await FileSystem.downloadAsync(REMOTE_URI, PATH);
   }
-  console.log(APP_NAME + " downloaded!");
-  DOWNLOADED_APPS.push(OBJ);
 }
 
-async function ClearApps(){
-  const PATH = FileSystem.documentDirectory + 'apps';
-  await FileSystem.deleteAsync(PATH);
-  await FileSystem.makeDirectoryAsync(PATH);
-  return console.log("Apps deleted!");
-}
-
-async function CheckApps(){
-  const PATH = FileSystem.documentDirectory + 'apps';
-  let DIR = await FileSystem.readDirectoryAsync(PATH)
-  .then(DIR => {
-    if (DIR.length > 0) {
-      DIR.forEach(ELEMENT => {
-        DOWNLOADED_APPS.push(ELEMENT);
-      });
-    }
-  })
-  .catch((err)=>{
-    console.log('Database IS NOT initialized! '+err);
-  });
-}
-
+/* 
 const App = () => {
   return (
     <View style={STYLES.container}>
-      <TouchableOpacity><Text>aaaaaaaaa</Text></TouchableOpacity>
+      <TouchableOpacity onPress={GetReqs}><Text>aaaaaaaaaa</Text></TouchableOpacity>
+      <TouchableOpacity onPress={ClearApps}><Text>oooooooooo</Text></TouchableOpacity>
     </View>
   );
 }
@@ -99,4 +115,4 @@ const STYLES = StyleSheet.create({
   },
 });
 
-export default App;
+export default App; */

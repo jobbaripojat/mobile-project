@@ -50,7 +50,7 @@ export const addFish=(id)=>{
             //Here we use the Prepared statement, just putting placeholders to the values to be inserted
             tx.executeSql('insert into apps(id, name) values(?,?);',
             //And the values come here
-            [id, "calc"],
+            [id, "count"],
             //If the transaction succeeds, this is called
             (_, result)=>{
                 resolve(result);
