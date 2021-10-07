@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from "react";
-import {View, Text, FlatList, StyleSheet, Alert, ActivityIndicator} from 'react-native';
+import {View, Text, FlatList, StyleSheet, Alert, ActivityIndicator, TouchableOpacity} from 'react-native';
 
 const App = () => {
   const [hasError, setErrors] = useState(false);
@@ -47,6 +47,7 @@ const App = () => {
             renderItem={({item}) => (
               <View style={styles.listItem}>
                 <Text>{item.id}) {item.name}</Text>
+                <TouchableOpacity style={styles.buttonstyle}><Text>Install</Text></TouchableOpacity>
               </View>
             )}
             keyExtractor={(item) => item.id.toString()}
@@ -55,7 +56,6 @@ const App = () => {
     );
   }
 };
-
 const styles=StyleSheet.create({
   listItem:{
     padding: 10,
@@ -73,8 +73,12 @@ const styles=StyleSheet.create({
     flex: 1, 
     padding: 20, 
     justifyContent:'center'
+  },
+  buttonstyle:{
+    borderColor: 'black',
+    borderWidth: 2,
+    alignItems:'center',
   }
-  
 });
 
 export default App;
