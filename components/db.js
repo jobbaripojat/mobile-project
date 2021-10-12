@@ -44,13 +44,13 @@ export const FetchAppNames = () => {
     return promise;
 };
 
-export const addFish=(id)=>{
+export const InstallApp=(id, app_name)=>{
     const promise=new Promise((resolve, reject)=>{
         db.transaction((tx)=>{
             //Here we use the Prepared statement, just putting placeholders to the values to be inserted
             tx.executeSql('insert into apps(id, name) values(?,?);',
             //And the values come here
-            [id, "count"],
+            [id, app_name],
             //If the transaction succeeds, this is called
             (_, result)=>{
                 resolve(result);
