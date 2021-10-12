@@ -1,5 +1,9 @@
 import React, { useState, useEffect } from "react";
-import {View, Text, FlatList, StyleSheet, Alert, ActivityIndicator, TouchableOpacity} from 'react-native';
+import {View, Text, FlatList, StyleSheet, Alert, ActivityIndicator, TouchableOpacity, Linking } from 'react-native';
+import { InstallApp, Init, FetchAppNames, Drop } from "./components/db";
+
+Init().then(()=>{console.log('Database creation succeeded!');}).catch((err)=>{console.log('Database IS NOT initialized! ' + err);});
+
 
 const App = () => {
   const [hasError, setErrors] = useState(false);
@@ -37,7 +41,7 @@ const App = () => {
       </View>
     );
   }
-  //Otherwise the list is shown
+
   else{
     return (
       <View style={styles.list}>
@@ -47,7 +51,7 @@ const App = () => {
             renderItem={({item}) => (
               <View style={styles.listItem}>
                 <Text>{item.id}) {item.name}</Text>
-                <TouchableOpacity style={styles.buttonstyle}><Text>Install</Text></TouchableOpacity>
+                <TouchableOpacity style={styles.buttonstyle} onPress ={() => InstallApp(item.id, item.name)}><Text>Install</Text></TouchableOpacity>
               </View>
             )}
             keyExtractor={(item) => item.id.toString()}
