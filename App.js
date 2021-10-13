@@ -1,21 +1,42 @@
-import { StatusBar } from 'expo-status-bar';
-import React from 'react';
-import { StyleSheet, Text, View } from 'react-native';
+import * as React from 'react';
+import { Button, View, FlatList } from 'react-native';
+import { createDrawerNavigator } from '@react-navigation/drawer';
+import { NavigationContainer } from '@react-navigation/native';
+import HomeScreen from './components/HomeScreen';
 
-export default function App() {
+import Comps from './components/screen';
+import { out } from 'react-native/Libraries/Animated/src/Easing';
+
+const Drawer = createDrawerNavigator();
+// const asd = require("./components/App1")
+// console.log(asd);
+
+// return <Drawer.Screen name={array.name} component={array.path} />
+// require("./components/App1")
+
+{/* <Drawer.Screen name={asd[i]} component={Comps} /> */}
+
+const applications = [
+  {
+    id: 'bd7acbea-c1b1-46c2-aed5-3ad53abb28ba',
+    name: 'calc',
+  },
+  {
+    id: 'bd7acbea-c1b1-46c2-aed5-3ad53abb28ba',
+    name: 'count',
+  },
+];
+
+export default App =()=> {
   return (
-    <View style={styles.container}>
-      <Text>Open up App.js to start working on your app!</Text>
-      <StatusBar style="auto" />
-    </View>
+    <NavigationContainer>
+      <Drawer.Navigator initialRouteName="Home">
+        <Drawer.Screen name="Home" component={HomeScreen} />
+        {applications.map(app_name => (
+          <Drawer.Screen key ={app_name.id} name={app_name.name} component={Comps} />
+        ))}
+      </Drawer.Navigator>
+    </NavigationContainer>
   );
 }
 
-const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    backgroundColor: '#fff',
-    alignItems: 'center',
-    justifyContent: 'center',
-  },
-});
