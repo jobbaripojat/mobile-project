@@ -44,9 +44,9 @@ const App = () => {
 
   else{
     return (
-      <View style={styles.list}>
+      <View style={styles.container}>
         <Text>{hasError}</Text>
-        <FlatList
+        <FlatList style={styles.list}
             data={apps}
             renderItem={({item}) => (
               <View style={styles.listItem}>
@@ -61,16 +61,20 @@ const App = () => {
   }
 };
 const styles=StyleSheet.create({
+  container:{
+    flex: 1,
+  },
   listItem:{
-    padding: 10,
+    borderRadius: 7,
+    padding: 15,
     marginVertical: 10,
-    borderWidth: 2,
-    borderColor: '#0f0',
-    backgroundColor: '#778899',
+    width:'90%',
+    backgroundColor: '#d8dbe2',
+    alignSelf: 'center',
   },
   list:{
-    marginTop:'50%',
-    alignItems:'center',
+    width: '100%',
+    height: '100%',
 
   },
   errorstyle:{
@@ -79,9 +83,12 @@ const styles=StyleSheet.create({
     justifyContent:'center'
   },
   buttonstyle:{
-    borderColor: 'black',
-    borderWidth: 2,
-    alignItems:'center',
+    alignSelf: 'flex-end',
+    width: '22%',
+    alignItems: 'center',
+    borderRadius: 5,
+    backgroundColor: '#58a4b0',
+    padding: 7,
   }
 });
 
