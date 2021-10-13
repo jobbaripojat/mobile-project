@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from "react";
 import {View, Text, FlatList, StyleSheet, Alert, ActivityIndicator, TouchableOpacity, Linking } from 'react-native';
-import { InstallApp, Init} from "../components/db";
+import { InstallApp, Init, Drop, ClearTable} from "../components/db";
 
 Init().then(()=>{console.log('Database creation succeeded!');}).catch((err)=>{console.log('Database IS NOT initialized! ' + err);});
 
@@ -16,7 +16,7 @@ const Store = () => {
     await fetch("https://awis-327608.appspot.com/rest/MobileServices/getAll")
     .then(parameter=>parameter.json()
           .catch(err=>{setSomeErrors(err);setErrors(true);console.log("JSON Error: "+err)})
-    .then(anotherParameter=>{setApps(anotherParameter);console.log(anotherParameter)})
+    .then(anotherParameter=>{setApps(anotherParameter);})
     .catch(anError=>{setSomeErrors(anError);console.log(anError)}));
   }
   useEffect(() => {
@@ -25,6 +25,7 @@ const Store = () => {
       FetchApps();
     }
   });
+
   if (isLoading==true) {
     return (
       <View style={styles.errorstyle}>
@@ -51,11 +52,12 @@ const Store = () => {
             renderItem={({item}) => (
               <View style={styles.listItem}>
                 <Text>{item.id}) {item.name}</Text>
-                <TouchableOpacity style={styles.buttonstyle} onPress ={() => InstallApp(item.id, item.name)}><Text>Install</Text></TouchableOpacity>
+                <TouchableOpacity style={styles.buttonstyle} onPress={() => InstallApp(item.id, item.name)}><Text>Install</Text></TouchableOpacity>
               </View>
             )}
             keyExtractor={(item) => item.id.toString()}
         />
+        <TouchableOpacity style={styles.buttonstyle} onPress={ClearTable}><Text>Remove all</Text></TouchableOpacity>
       </View>
     );
   }
@@ -69,7 +71,7 @@ const styles=StyleSheet.create({
     backgroundColor: '#778899',
   },
   list:{
-    marginTop:'50%',
+    marginTop:'30%',
     alignItems:'center',
 
   },

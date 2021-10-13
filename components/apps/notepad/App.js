@@ -1,7 +1,10 @@
+// "BORROWED" CODE
+
+
 import React from 'react';
 import { StyleSheet, Text, View, TextInput, ScrollView, TouchableOpacity } from 'react-native';
 
-import Note from './Note.js';
+import Note from './Components/Note.js';
 export default class App1 extends React.Component {
 
   state = {
@@ -66,6 +69,7 @@ export default class App1 extends React.Component {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
+    width: '100%'
   },
   header: {
     backgroundColor: 'white',

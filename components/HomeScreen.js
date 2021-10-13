@@ -9,4 +9,5 @@ function HomeScreen({ navigation }) {
       <Store></Store>
       </View>
     );
-  } export default HomeScreen;
+  } 
+export default HomeScreen;

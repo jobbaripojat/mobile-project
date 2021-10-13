@@ -28,6 +28,20 @@ export const Drop=()=>{
     return promise;
 };
 
+export const ClearTable=()=>{
+    console.log('Table "apps" cleared!');
+    const promise=new Promise((resolve, reject)=>{
+        db.transaction((tx)=>{
+            tx.executeSql('delete from apps;',      
+            [],
+            ()=>{resolve(); },
+            (_,err)=>{reject(err);}
+            );
+        });
+    });
+    return promise;
+};
+
 export const FetchAppNames = () => {
     const promise = new Promise((resolve, reject)=>{
         db.transaction((tx)=>{
