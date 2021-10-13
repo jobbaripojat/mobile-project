@@ -1,5 +1,5 @@
-import React from 'react';
-import { StyleSheet, Text, View, TouchableOpacity } from 'react-native';
+/* import React from 'react';
+import { StyleSheet, Text, View, TouchableOpacity } from 'react-native'; */
 import { FileSystem } from 'react-native-unimodules';
 import { FetchAppNames, Init, Drop } from './components/db';
 
@@ -101,7 +101,7 @@ async function DlApp(APP_NAME){
   }
 }
 
-const App = () => {
+/* const App = () => {
   return (
     <View style={STYLES.container}>
       <TouchableOpacity onPress={GetReqs}><Text>aaaaaa</Text></TouchableOpacity>
@@ -118,4 +118,4 @@ const STYLES = StyleSheet.create({
   },
 });
 
-export default App; 
+export default App;  */
