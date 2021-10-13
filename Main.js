@@ -27,7 +27,7 @@ const applications = [
   },
 ];
 
-export default App =()=> {
+export default Main =()=> {
   return (
     <NavigationContainer>
       <Drawer.Navigator initialRouteName="Home">
