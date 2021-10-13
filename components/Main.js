@@ -2,9 +2,9 @@ import * as React from 'react';
 import { Button, View, FlatList } from 'react-native';
 import { createDrawerNavigator } from '@react-navigation/drawer';
 import { NavigationContainer } from '@react-navigation/native';
-import HomeScreen from './components/HomeScreen';
+import HomeScreen from './HomeScreen';
 
-import Comps from './components/screen';
+import Comps from './Screen';
 import { out } from 'react-native/Libraries/Animated/src/Easing';
 
 const Drawer = createDrawerNavigator();

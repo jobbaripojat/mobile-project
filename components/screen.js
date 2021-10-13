@@ -4,9 +4,9 @@ import {StyleSheet, Button, View } from 'react-native';
 
 //  {props.route.name == 'notepad'? <App1></App1> : null}
 
-import App1 from './App1';
-var calc = require('../components/apps/calc/App').default;
-var count = require('../components/apps/count/App').default;
+import App1 from './apps/App1';
+var calc = require('./apps/calc/App').default;
+var count = require('./apps/count/App').default;
 
 const reqs = [
   {
