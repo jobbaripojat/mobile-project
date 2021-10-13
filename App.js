@@ -2,7 +2,7 @@ import React from 'react';
 import { StyleSheet, Text, View, TouchableOpacity } from 'react-native';
 import { FileSystem } from 'react-native-unimodules';
 import { FetchAppNames, Init, Drop } from './components/db';
-/* 
+
 var INSTALLED_APPS = [];
 var DOWNLOADED_APPS = [];
 var APP_REQUIREMENTS = [];
@@ -79,10 +79,14 @@ function CheckApps(){
 
 function CreateReqs(APP_NAME) {
   const PATH = FileSystem.documentDirectory + 'apps/' + APP_NAME;
-  const STRING = 'require(\'' + PATH + '\');';
+  // do not work
+  // const REQ = await import(PATH);
+  // const REQ = Function('return require("' + PATH + '").default;');
+  // const REQ = require(""+PATH).default;
+  // const REQ = require(`${PATH}`).default;
   const OBJ = {
     name: APP_NAME,
-    req: STRING
+    req: PATH
   }
   return OBJ;
 }
@@ -97,30 +101,10 @@ async function DlApp(APP_NAME){
   }
 }
 
- */
-
-const apps = ['calc', 'count'];
-var comps = [];
-let FUNC = Function('console.log("aa");');
-
-function getreqs(arr = apps){
-  arr.forEach(element => {
-    let PATH = FileSystem.documentDirectory;
-    FUNC = Function('return require("' + PATH + "/apps/" + element + '").default;')
-    /* const test = require(`${PATH}/apps/${element}`);
-    const test2 = require(PATH + '/apps/' + element);
-    comps.push(test);
-    comps.push(test2); */
-    let x = FUNC();
-    console.log(x);
-  });
-}
-
-getreqs();
-
 const App = () => {
   return (
     <View style={STYLES.container}>
+      <TouchableOpacity onPress={GetReqs}><Text>aaaaaa</Text></TouchableOpacity>
     </View>
   );
 }
